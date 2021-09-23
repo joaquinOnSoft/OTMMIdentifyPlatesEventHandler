@@ -22,7 +22,7 @@ If a plate number is found, It's stored in this custom fields:
 1.	Copy this paragraph:
 
 ``` 
-<!-- Custom event listener (Fraud Media Analysis) -->
+<!-- Custom event listener (Identify Spanish plates using OCR text from Rich Media Analysis) -->
 <listener>
 	<listener-class>com.opentext.otmm.sc.evenlistener.AnalysisDataFromAzureIsDeletedEventListenerRegistration</listener-class>
 </listener>
@@ -39,8 +39,7 @@ Follow these steps:
 1.	Copy these text:
 
 ``` 
-<!-- Custom added by Joaquín -->
-			
+<!-- Custom added by Joaquín: INIT -->
 		
 <logger name="com.opentext.otmm.sc.evenlistener">
 	<level name="DEBUG"/>
@@ -65,6 +64,14 @@ Follow these steps:
 	<appender-ref ref="console" />
 	<appender-ref ref="file" />
 </logger>
+
+<logger name="com.opentext.otmm.sc.modules.plates">
+	<level name="DEBUG"/>
+	<appender-ref ref="console" />
+	<appender-ref ref="file" />
+</logger>
+
+<!-- Custom added by Joaquín: END -->
 ``` 
 
 2.	Paste the paragraph before the **&lt;/log4j:configuration&gt;** label into **C:\Apps\MediaManagement_TomEE\conf\log4j.xml**
