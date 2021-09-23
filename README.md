@@ -3,7 +3,7 @@ This event is launched once the Rich Media Analysis (RMA) has finished.
 
 > NOTE: The data from Azure is deleted regardless of whether the extraction of media analytics succeeded or not.
 
-Once the Analysis data from Azure is deleted the OCR text is available (only when the RMA has finished successfully).
+Once the import job is finished the OCR text is available (only when the RMA has finished successfully).
 
 This add-on search for Spanish plate number in the OCR text found in the image
 
