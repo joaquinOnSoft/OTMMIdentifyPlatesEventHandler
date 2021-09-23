@@ -24,7 +24,7 @@ If a plate number is found, It's stored in this custom fields:
 ``` 
 <!-- Custom event listener (Identify Spanish plates using OCR text from Rich Media Analysis) -->
 <listener>
-	<listener-class>com.opentext.otmm.sc.evenlistener.AnalysisDataFromAzureIsDeletedEventListenerRegistration</listener-class>
+	<listener-class>com.opentext.otmm.sc.evenlistener.EndingImportJobEventListenerRegistration</listener-class>
 </listener>
 ```
  
@@ -95,7 +95,7 @@ Follow these steps:
 1.	Open SQL Server Management Studio
 2.	Browse to OTMM-BASE (SQL Server - sa) > Databases > MM > Tables
 3.	Select table mm.EVENT_CTXTS
-4.	Edit row with `EVENT_ID = '5006'` which corresponds with ‘Analysis data from Azure is deleted’ events
+4.	Edit row with `EVENT_ID = '2229148'` which corresponds with ‘Ending import job’ events
 5.	Set IS_ENABLED_EXTERNAL = 'Y'
 
 ![Update mm.EVENT_CTXTS table](images/0050-update-EVENT_CTXTS-table.png)
@@ -117,14 +117,14 @@ SELECT [EVENT_ID]
       ,[MESSAGE]
       ,[IS_EDITABLE]
   FROM [mm].[EVENT_CTXTS]
-  WHERE EVENT_ID = '5006'
+  WHERE EVENT_ID = '2229148'
 GO
 ```
 
 ```sql 
 UPDATE [mm].[EVENT_CTXTS]
    SET [IS_ENABLED_EXTERNAL] = 'Y'
-   WHERE EVENT_ID = '5006'
+   WHERE EVENT_ID = '2229148'
 GO
 ```
 
