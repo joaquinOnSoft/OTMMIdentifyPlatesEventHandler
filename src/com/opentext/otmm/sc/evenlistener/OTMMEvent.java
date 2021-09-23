@@ -30,7 +30,7 @@ public interface OTMMEvent {
 	 * extraction of media analytics succeeded or not. 
 	 */
 	public static final String ANALYSIS_DATA_FROM_AZURE_IS_DELETED = "5006";
-
+	
 	/**
 	 * <strong>EVENT_ID</strong>: 2229145	
 	 * <strong>DESCR</strong>: Asset Import	
