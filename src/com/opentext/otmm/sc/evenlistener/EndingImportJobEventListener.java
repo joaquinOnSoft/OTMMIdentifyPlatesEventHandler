@@ -20,7 +20,7 @@ package com.opentext.otmm.sc.evenlistener;
 
 import com.artesia.entity.TeamsIdentifier;
 import com.artesia.event.Event;
-import com.opentext.otmm.sc.evenlistener.handler.PlateIndentificationOnAnalysisDataFromAzureIsDeleted;
+import com.opentext.otmm.sc.evenlistener.handler.PlateIndentificationOnEndingImportJob;
 import com.opentext.otmm.sc.evenlistener.handler.OTMMEventHandler;
 
 public class EndingImportJobEventListener extends AbstractEventLister {
@@ -41,7 +41,7 @@ public class EndingImportJobEventListener extends AbstractEventLister {
 		if (event.getEventId().equals(new TeamsIdentifier(OTMMEvent.IMPORT_JOB_ENDED))) {
 			log.info("Ids match for 'Ending Import Job (2229148)' event. Event Id: " + event.getEventId());
 			
-			OTMMEventHandler handler = new PlateIndentificationOnAnalysisDataFromAzureIsDeleted();
+			OTMMEventHandler handler = new PlateIndentificationOnEndingImportJob();
 			handler.handle(event);
 		}
 	}

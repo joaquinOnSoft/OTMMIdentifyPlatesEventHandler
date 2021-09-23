@@ -34,7 +34,7 @@ import com.opentext.otmm.sc.modules.plates.Plate;
  * Fraud Media Analysis (FMA) No metadata: The picture doesn’t include any
  * metadata
  */
-public class PlateIndentificationOnAnalysisDataFromAzureIsDeleted extends AbstractOTMMEventHandler implements OTMMField {
+public class PlateIndentificationOnEndingImportJob extends AbstractOTMMEventHandler implements OTMMField {
 	@Override
 	public boolean handle(Event event) {
 		boolean handled = false;
@@ -100,7 +100,7 @@ public class PlateIndentificationOnAnalysisDataFromAzureIsDeleted extends Abstra
 					handled = true;
 
 				} else {
-					log.info("Assets 'Text on Image' metadata NOT FOUNd!!!");
+					log.info("Assets 'Text on Image' metadata NOT FOUND for asset: " + assetId.getId());
 				}
 			}
 		} else {

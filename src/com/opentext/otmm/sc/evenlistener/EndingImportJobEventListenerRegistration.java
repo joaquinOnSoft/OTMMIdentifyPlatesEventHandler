@@ -39,11 +39,11 @@ public class EndingImportJobEventListenerRegistration extends AbstractEventListe
 
 		try {		
 			SecuritySession session = com.opentext.otmm.sc.evenlistener.util.EventListenerUtils.getLocalSession(USER_ALIAS_TSUPER);
-			EndingImportJobEventListener eijEventListener = new EndingImportJobEventListener(OTMMEvent.ANALYSIS_DATA_FROM_AZURE_IS_DELETED);
+			EndingImportJobEventListener eijEventListener = new EndingImportJobEventListener(OTMMEvent.IMPORT_JOB_ENDED);
 			EventServices.getInstance().addEventListener(clientId, eijEventListener, session);
 			
 		} catch (BaseTeamsException e) {
-			log.error("<<< " + getClassName() + " >> contextInitialized() End <<<");	
+			log.error("<<< ERROR in class " + getClassName() + " >> contextInitialized() <<< " + e.getMessage());	
 		}		
 		
 		log.info("<<< " + getClassName() + " >> contextInitialized() End <<<");				
