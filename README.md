@@ -88,7 +88,7 @@ Follow these steps:
 1.	Open SQL Server Management Studio
 2.	Browse to OTMM-BASE (SQL Server - sa) > Databases > MM > Tables
 3.	Select table mm.EVENT_CTXTS
-4.	Edit row with `EVENT_ID IN ('1114362', '2031680', '2752513')` which corresponds with ‘asset download’ events
+4.	Edit row with `EVENT_ID = '5006'` which corresponds with ‘Analysis data from Azure is deleted’ events
 5.	Set IS_ENABLED_EXTERNAL = 'Y'
 
 ![Update mm.EVENT_CTXTS table](images/0050-update-EVENT_CTXTS-table.png)
@@ -96,7 +96,7 @@ Follow these steps:
 ```sql 
 UPDATE [mm].[EVENT_CTXTS]
    SET [IS_ENABLED_EXTERNAL] = 'Y'
-   WHERE EVENT_ID IN ('1114362', '2031680', '2752513', '1114361', '60006')
+   WHERE EVENT_ID = '5006'
 GO
 ```
 
