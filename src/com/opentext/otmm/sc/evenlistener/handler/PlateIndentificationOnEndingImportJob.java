@@ -38,14 +38,20 @@ public class PlateIndentificationOnEndingImportJob extends AbstractOTMMEventHand
 	@Override
 	public boolean handle(Event event) {
 		boolean handled = false;
+		
+		log.debug("PlateIndentificationOnEndingImportJob.handle()");
 
 		Job job = JobHelper.retrieveJob(event.getObjectId());
 		List<AssetIdentifier> assetIds = job.getAssetIds();
-
-		log.info(assetIds);
+				
+		log.info("assetIds: " + assetIds);
 
 		if (assetIds != null && assetIds.size() > 0) {
 
+			assetIds.forEach((assetIdTemp) -> {
+				log.debug("\t>>> Asset: " + assetIdTemp.getId());
+	        });
+			
 			for (AssetIdentifier assetId : assetIds) {
 				log.debug("Initializing plate indentification on asset: " + assetId.getId());
 				
@@ -66,37 +72,7 @@ public class PlateIndentificationOnEndingImportJob extends AbstractOTMMEventHand
 					else {
 						log.debug("OCR text NOT FOUND!!!");
 					}					
-					/*
-					 * log.debug("Asset Metadata (size): " + assetEmbeddedPictureFields.size());
-					 * 
-					 * int rows = 0; MetadataValue fieldValue = null;
-					 * 
-					 * for(TeamsIdentifier identifier: EMBEDDED_PICTURE_FIELDS){ MetadataTableField
-					 * field = (MetadataTableField)
-					 * assetEmbeddedPictureFields.findElementById(identifier);
-					 * log.info(field.getName() + " ===================================");
-					 * 
-					 * rows = field.getRowCount(); for(int i=0; i<rows; i++) { fieldValue =
-					 * field.getValueAt(i); log.debug("\t" + field.getName() + "[" + i + "]: " +
-					 * field.getValueAt(i));
-					 * 
-					 * if(!fieldValue.isNullValue()) { emptyMetadata = false; } } }
-					 * 
-					 */
 
-					// Recovering Custom metadata
-					/*
-					 * MetadataTableField fmaNoMetadata = (MetadataTableField)
-					 * assetOCRTextField.findElementById(new
-					 * TeamsIdentifier(CUSTOM_FRAUD_MEDIA_ANALYSIS_NO_METADATA));
-					 * fmaNoMetadata.setValue(new MetadataValue(emptyMetadata));
-					 * 
-					 * MetadataField[] metadataFields = new MetadataField[] { fmaNoMetadata };
-					 * 
-					 * MetadataHelper.lockAsset(assetId);
-					 * MetadataHelper.saveMetadataForAsset(assetId, metadataFields);
-					 * MetadataHelper.unlockAsset(assetId);
-					 */
 					handled = true;
 
 				} else {
