@@ -1,4 +1,4 @@
-OpenText Media Management (OTMM) Event listener which listen the event **Analysis data from Azure is deleted (5006)**.
+OpenText Media Management (OTMM) Event listener which listen the event **Ending import job (2229148)**.
 This event is launched once the Rich Media Analysis (RMA) has finished.  
 
 > NOTE: The data from Azure is deleted regardless of whether the extraction of media analytics succeeded or not.
