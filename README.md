@@ -94,6 +94,27 @@ Follow these steps:
 ![Update mm.EVENT_CTXTS table](images/0050-update-EVENT_CTXTS-table.png)
 
 ```sql 
+USE [MM]
+GO
+
+SELECT [EVENT_ID]
+      ,[CONTEXT_ID]
+      ,[COMPONENT_ID]
+      ,[IS_ENABLED_INTERNAL]
+      ,[IS_ENABLED_EXTERNAL]
+      ,[DESCR]
+      ,[LOGGING_DEST]
+      ,[PUBLICATION_KEY]
+      ,[FILE_DEST]
+      ,[TAB_DEST]
+      ,[MESSAGE]
+      ,[IS_EDITABLE]
+  FROM [mm].[EVENT_CTXTS]
+  WHERE EVENT_ID = '5006'
+GO
+```
+
+```sql 
 UPDATE [mm].[EVENT_CTXTS]
    SET [IS_ENABLED_EXTERNAL] = 'Y'
    WHERE EVENT_ID = '5006'
