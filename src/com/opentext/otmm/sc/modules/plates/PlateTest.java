@@ -43,6 +43,11 @@ public class PlateTest {
 	}
 
 	@Test
+	void testContainsPlateMultiline() {
+		assertTrue(Plate.containsPlate("S\n2093 GSW\nE\n"));		
+	}
+		
+	@Test
 	void testNotContainsPlate(){
 		assertFalse(Plate.containsPlate("Lorem ipsum dolor sit amet, consectetur adipiscing elit."));
 	}	
