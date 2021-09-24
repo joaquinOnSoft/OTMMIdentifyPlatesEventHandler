@@ -44,11 +44,17 @@ public class PlateTest {
 
 	@Test
 	void testContainsPlateMultiline() {
-		assertTrue(Plate.containsPlate("S\\n2093 GSW\\nE\\n"));	
+		assertTrue(Plate.containsPlate("6852 KWS"));
+		assertTrue(Plate.containsPlate("6852 KWS\\n"));	
+		
+		assertTrue(Plate.containsPlate("S\\n2093 GSW\\nE\\n"));			
 		assertTrue(Plate.containsPlate("S\n2093 GSW\nE\n"));	
+		
 		assertTrue(Plate.containsPlate("pa\\n4210 KVH\\ncoches.com\\n"));		
 		assertTrue(Plate.containsPlate("pa\n4210 KVH\ncoches.com\n"));
 		
+		assertTrue(Plate.containsPlate("32\\n9649 HDG\\nE\\nTPOR\\nHerranz\\nwww.bmw.es/herranz\\n"));
+		assertTrue(Plate.containsPlate("32\n9649 HDG\nE\nTPOR\nHerranz\nwww.bmw.es/herranz\n"));
 	}
 		
 	@Test
@@ -111,6 +117,21 @@ public class PlateTest {
 		assertEquals("6852 KWS", Plate.findFirstPlate("6852 KWS"));
 		assertEquals("9649 HDG", Plate.findFirstPlate("32 9649 HDG E TPOR Herranz www.bmw.es/herranz"));		
 	}
+	
+	@Test
+	void testfindFirstPlateMultiline() {
+		assertEquals("6852 KWS", Plate.findFirstPlate("6852 KWS"));
+		assertEquals("6852 KWS", Plate.findFirstPlate("6852 KWS\\n"));	
+		
+		assertEquals("2093 GSW", Plate.findFirstPlate("S\\n2093 GSW\\nE\\n"));			
+		assertEquals("2093 GSW", Plate.findFirstPlate("S\n2093 GSW\nE\n"));	
+		
+		assertEquals("4210 KVH", Plate.findFirstPlate("pa\\n4210 KVH\\ncoches.com\\n"));		
+		assertEquals("4210 KVH", Plate.findFirstPlate("pa\n4210 KVH\ncoches.com\n"));
+		
+		assertEquals("9649 HDG", Plate.findFirstPlate("32\\n9649 HDG\\nE\\nTPOR\\nHerranz\\nwww.bmw.es/herranz\\n"));
+		assertEquals("9649 HDG", Plate.findFirstPlate("32\n9649 HDG\nE\nTPOR\nHerranz\nwww.bmw.es/herranz\n"));
+	}	
 	
 	@Test
 	void testNotFindFirstPlate() {

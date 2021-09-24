@@ -56,8 +56,7 @@ public class PlateIndentificationOnMetadataUpdate extends AbstractOTMMEventHandl
 
 					log.info("OCR text: " + ocrText);
 					if (ocrText != null) {
-						log.info("OCR text contains plate: " + Plate.containsPlate(ocrText));
-						;
+						log.info("\tOCR text contains plate: " + Plate.containsPlate(ocrText));
 					}
 				} else {
 					log.info("OCR text NOT FOUND!!!");
