@@ -20,7 +20,7 @@ package com.opentext.otmm.sc.evenlistener;
 
 import com.artesia.entity.TeamsIdentifier;
 import com.artesia.event.Event;
-import com.opentext.otmm.sc.evenlistener.handler.PlateIndentificationOnEndingImportJob;
+import com.opentext.otmm.sc.evenlistener.handler.PlateIndentificationOnMetadataUpdate;
 import com.opentext.otmm.sc.evenlistener.handler.OTMMEventHandler;
 
 public class MetadataUpdatedEventListener extends AbstractEventLister {
@@ -41,7 +41,7 @@ public class MetadataUpdatedEventListener extends AbstractEventLister {
 		if (event.getEventId().equals(new TeamsIdentifier(OTMMEvent.METADATA_UPDATED))) {
 			log.info("Ids match for 'Metadata Updated (80008)' event. Event Id: " + event.getEventId());
 			
-			OTMMEventHandler handler = new PlateIndentificationOnEndingImportJob();
+			OTMMEventHandler handler = new PlateIndentificationOnMetadataUpdate();
 			handler.handle(event);
 		}
 	}
