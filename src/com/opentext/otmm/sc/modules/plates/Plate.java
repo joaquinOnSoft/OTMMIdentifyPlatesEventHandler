@@ -44,7 +44,7 @@ public class Plate {
 			pattern = PATTERN_OLD_PLATE;
 		}
 		
-		Matcher m = Pattern.compile(pattern, Pattern.DOTALL).matcher(txt);
+		Matcher m = Pattern.compile(pattern, Pattern.MULTILINE).matcher(txt);
 		if(m.find()) {
 			plate = m.group();
 		}
@@ -53,7 +53,7 @@ public class Plate {
 	}
 	
 	public static boolean matchPatter(String txt, String regex) {
-		Pattern pattern = Pattern.compile(regex, Pattern.DOTALL);
+		Pattern pattern = Pattern.compile(regex, Pattern.MULTILINE);
 		Matcher matcher = pattern.matcher(txt);
 
 		return matcher.matches();
