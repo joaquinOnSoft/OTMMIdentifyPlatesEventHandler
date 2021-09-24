@@ -39,7 +39,7 @@ public class PlateIndentificationOnEndingImportJob extends AbstractOTMMEventHand
 	public boolean handle(Event event) {
 		boolean handled = false;
 		
-		log.debug("PlateIndentificationOnEndingImportJob.handle()");
+		log.info("PlateIndentificationOnEndingImportJob.handle()");
 
 		Job job = JobHelper.retrieveJob(event.getObjectId());
 		List<AssetIdentifier> assetIds = job.getAssetIds();
@@ -49,11 +49,11 @@ public class PlateIndentificationOnEndingImportJob extends AbstractOTMMEventHand
 		if (assetIds != null && assetIds.size() > 0) {
 
 			assetIds.forEach((assetIdTemp) -> {
-				log.debug("\t>>> Asset: " + assetIdTemp.getId());
+				log.info("\t>>> Asset: " + assetIdTemp.getId());
 	        });
 			
 			for (AssetIdentifier assetId : assetIds) {
-				log.debug("Initializing plate indentification on asset: " + assetId.getId());
+				log.info("Initializing plate indentification on asset: " + assetId.getId());
 				
 				MetadataCollection mc = retrieveMetadataForAsset(assetId,
 						ARTESIA_FIELD_MEDIAANALYSIS_OCR_TEXT);
@@ -64,13 +64,13 @@ public class PlateIndentificationOnEndingImportJob extends AbstractOTMMEventHand
 					if(metadataOCRText != null) {
 						String ocrText = metadataOCRText.getStringValue();
 						
-						log.debug("OCR text: " + ocrText);
+						log.info("OCR text: " + ocrText);
 						if(ocrText != null) {
-							log.debug("OCR text contains plate: " + Plate.containsPlate(ocrText));;
+							log.info("OCR text contains plate: " + Plate.containsPlate(ocrText));;
 						}
 					}
 					else {
-						log.debug("OCR text NOT FOUND!!!");
+						log.info("OCR text NOT FOUND!!!");
 					}					
 
 					handled = true;

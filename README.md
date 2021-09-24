@@ -24,7 +24,15 @@ If a plate number is found, It's stored in this custom fields:
 ``` 
 <!-- Custom event listener (Identify Spanish plates using OCR text from Rich Media Analysis) -->
 <listener>
+	<listener-class>com.opentext.otmm.sc.evenlistener.AnalysisDataFromAzureIsDeletedEventListenerRegistration</listener-class>
+</listener>
+
+<listener>
 	<listener-class>com.opentext.otmm.sc.evenlistener.EndingImportJobEventListenerRegistration</listener-class>
+</listener>
+
+<listener>
+	<listener-class>com.opentext.otmm.sc.evenlistener.MetadataUpdatedEventListenerRegistration</listener-class>
 </listener>
 ```
  

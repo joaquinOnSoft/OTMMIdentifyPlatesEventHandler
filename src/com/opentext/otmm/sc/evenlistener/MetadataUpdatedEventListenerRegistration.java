@@ -24,24 +24,25 @@ import com.artesia.common.exception.BaseTeamsException;
 import com.artesia.event.services.EventServices;
 import com.artesia.security.SecuritySession;
 
-public class EndingImportJobEventListenerRegistration extends AbstractEventListenerRegistration {
+public class MetadataUpdatedEventListenerRegistration extends AbstractEventListenerRegistration {
 
-	public EndingImportJobEventListenerRegistration() {
+	public MetadataUpdatedEventListenerRegistration() {
 		super();
-		clientId = "Ending-import-job";
+		clientId = "Metadata-Updated";
 	}
 		
 	@Override
 	public void contextInitialized(ServletContextEvent event) {
-		clientId = "Ending-import-job";
+		clientId = "Metadata-Updated";
 		
 		log.info(">>> " + getClassName() + " >> contextInitialized() Start >>>");
 
 		try {		
 			SecuritySession session = com.opentext.otmm.sc.evenlistener.util.EventListenerUtils.getLocalSession(USER_ALIAS_TSUPER);
+
+			MetadataUpdatedEventListener metatadaUpdatedEventListener = new MetadataUpdatedEventListener(OTMMEvent.METADATA_UPDATED);
+			EventServices.getInstance().addEventListener(clientId, metatadaUpdatedEventListener, session);			
 			
-			EndingImportJobEventListener endingImportEventListener = new EndingImportJobEventListener(OTMMEvent.IMPORT_JOB_ENDED);
-			EventServices.getInstance().addEventListener(clientId, endingImportEventListener, session);
 		} catch (BaseTeamsException e) {
 			log.error("<<< ERROR in class " + getClassName() + " >> contextInitialized() <<< " + e.getMessage());	
 		}		

@@ -48,5 +48,13 @@ public interface OTMMEvent {
 	 * <strong>NOTE</strong>: Event stored at table: mm.EVENT_CTXTS
 	 */
 	public static final String IMPORT_JOB_ENDED = "2229148";
-
+	
+	/**
+	 * <strong>EVENT_ID</strong>: 80008	
+	 * <strong>DESCR</strong>: Metadata Updated	
+	 * <strong>PUBLICATION_KEY</strong>: TEAMS.IMPORT
+	 * <strong>MESSAGE</strong>: metadata was edited and saved
+	 * <strong>NOTE</strong>: Event stored at table: mm.EVENT_CTXTS
+	 */
+	public static final String METADATA_UPDATED = "80008";
 }
