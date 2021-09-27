@@ -58,22 +58,41 @@ public class PlateIndentificationOnMetadataUpdate extends AbstractOTMMEventHandl
 				
 				MetadataValue metadataOCRText = mc.getValueForField(new TeamsIdentifier(ARTESIA_FIELD_MEDIAANALYSIS_OCR_TEXT));
 				if (metadataOCRText != null) {
-					String ocrText = metadataOCRText.getStringValue();
+					log.info("Recovering car plate related fields.");
 
-					log.info("OCR text: " + ocrText);
-					if (ocrText != null) {
-						if (Plate.containsPlate(ocrText)){
-							String plate = Plate.findFirstPlate(ocrText);
-							log.info("\tOCR text contains plate: " + plate);
+					MetadataValue metadataPlate = mc.getValueForField(new TeamsIdentifier(CUSTOM_FIELD_CAR_PLATE_NUMBER));
+					MetadataValue metadataCoutry = mc.getValueForField(new TeamsIdentifier(CUSTOM_FIELD_CAR_PLATE_COUNTRY));
+					MetadataValue metadataBrand = mc.getValueForField(new TeamsIdentifier(CUSTOM_FIELD_CAR_BRAND));
+					
+					if(metadataPlate != null && metadataCoutry != null && metadataBrand != null) {
+						String plateValue = metadataPlate.getStringValue();
+						String countryValue = metadataCoutry.getStringValue();
+						String brandValue = metadataBrand.getStringValue();
+						
+						if ((plateValue == null || plateValue.compareTo("") == 0) &&
+								(countryValue == null || countryValue.compareTo("") == 0) &&
+								(brandValue == null || brandValue.compareTo("") == 0) ) {
 							
-							if (plate != null && plate.compareTo("") != 0) {
-								MetadataHelper.saveMetadata(assetId, CUSTOM_FIELD_CAR_PLATE_NUMBER, plate);
-							}
+							log.info("Plate metadata fields are all 'null' or 'empty'");
 							
-							
-							String countryName = Plate.findFirstCountryCode(ocrText);
-							if (countryName != null && countryName.compareTo("") !=  0) {
-								MetadataHelper.saveMetadata(assetId, CUSTOM_FIELD_CAR_PLATE_COUNTRY, countryName);
+							String ocrText = metadataOCRText.getStringValue();
+		
+							log.info("OCR text: " + ocrText);
+							if (ocrText != null) {
+								if (Plate.containsPlate(ocrText)){
+									String plate = Plate.findFirstPlate(ocrText);
+									log.info("\tOCR text contains plate: " + plate);
+									
+									if (plate != null && plate.compareTo("") != 0) {
+										MetadataHelper.saveMetadata(assetId, CUSTOM_FIELD_CAR_PLATE_NUMBER, plate);
+									}
+									
+									
+									String countryName = Plate.findFirstCountryCode(ocrText);
+									if (countryName != null && countryName.compareTo("") !=  0) {
+										MetadataHelper.saveMetadata(assetId, CUSTOM_FIELD_CAR_PLATE_COUNTRY, countryName);
+									}
+								}
 							}
 						}
 					}

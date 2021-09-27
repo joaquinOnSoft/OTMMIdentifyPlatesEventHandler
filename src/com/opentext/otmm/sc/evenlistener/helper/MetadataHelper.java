@@ -147,14 +147,14 @@ public class MetadataHelper {
 		assetStatusField.setValue(value);
 
 		// lock the asset before saving
-		log.info("Locking assets");
+		log.info("Locking assets: " + assetIDs);
 		MetadataHelper.lockAssets(assetIDs);
 
 		// save the new value
-		log.info("Saving asset");
+		log.info("Saving '"+ fieldId + "' field");
 		MetadataHelper.saveMetadata(assetIDs, assetStatusField);
 
-		log.info("Unlocking assets");
+		log.info("Unlocking assets: " + assetIDs);
 		MetadataHelper.unlockAssets(assetIDs);
 
 	}
