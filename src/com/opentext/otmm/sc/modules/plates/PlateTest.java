@@ -26,6 +26,29 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
 public class PlateTest {
+	
+	@Test
+	void testGetCountryNameFromPlateCountryCode() {
+		assertEquals("España", Plate.getCountryNameFromPlateCountryCode("E"));
+		assertEquals("Francia", Plate.getCountryNameFromPlateCountryCode("F"));
+		assertEquals("Italia", Plate.getCountryNameFromPlateCountryCode("I"));		
+		assertEquals("Holanda", Plate.getCountryNameFromPlateCountryCode("NL"));		
+	}
+	
+	@Test
+	void testFindFirstCountryCode() {
+		assertNull(Plate.findFirstCountryCode("6852 KWS"));
+		assertNull(Plate.findFirstCountryCode("6852 KWS\\n"));	
+		
+		assertNull(Plate.findFirstCountryCode("S\\n2093 GSW\\nE\\n"));			
+		assertEquals("Suecia", Plate.findFirstCountryCode("S\n2093 GSW\nE\n"));	
+		
+		assertNull(Plate.findFirstCountryCode("pa\\n4210 KVH\\ncoches.com\\n"));		
+		assertNull(Plate.findFirstCountryCode("pa\n4210 KVH\ncoches.com\n"));
+		
+		assertNull(Plate.findFirstCountryCode("32\\n9649 HDG\\nE\\nTPOR\\nHerranz\\nwww.bmw.es/herranz\\n"));
+		assertEquals("España", Plate.findFirstCountryCode("32\n9649 HDG\nE\nTPOR\nHerranz\nwww.bmw.es/herranz\n"));
+	}
 
 	@Test
 	void testContainsPlate(){
