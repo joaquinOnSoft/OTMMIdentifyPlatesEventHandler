@@ -13,10 +13,10 @@ If a plate number is found, It's stored in this custom fields:
 
 > NOTE: These custom field must be created from TEAMS administration panel.
 
-> This code was done for quick POC. The use of "Metadata Updated (80008)" 
+> **IMPOTANT**: This code was done for a quick POC. The use of "Metadata Updated (80008)" 
 > event is not the best choice for a production environment.
 > In a production environment better options consist of overwrite the Import job.
-> See the **Chapter 5 Jobs** of the document **OpenText™ Media Management Integration Guide*
+> See the **Chapter 5 Jobs** of the document **OpenText™ Media Management Integration Guide**
 > available on  the **OpenText Knowledge Center**.
 
 # Event handler registration
