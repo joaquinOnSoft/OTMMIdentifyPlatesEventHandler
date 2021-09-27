@@ -132,7 +132,7 @@ public class PlateIndentificationOnMetadataUpdate extends AbstractOTMMEventHandl
 	}
 
 	private void saveCarDetails(AssetIdentifier assetId, String plate, String countryName, String brand) {
-		MetadataField metaPlate = new MetadataField(new TeamsIdentifier(CUSTOM_FIELD_CAR_PLATE_COUNTRY));
+		MetadataField metaPlate = new MetadataField(new TeamsIdentifier(CUSTOM_FIELD_CAR_PLATE_NUMBER));
 		metaPlate.setValue(plate);
 		MetadataField metaCountry= new MetadataField(new TeamsIdentifier(CUSTOM_FIELD_CAR_PLATE_COUNTRY));
 		metaCountry.setValue(countryName);
