@@ -18,6 +18,9 @@
  */
 package com.opentext.otmm.sc.evenlistener.handler;
 
+import java.util.Arrays;
+import java.util.List;
+
 import com.artesia.asset.AssetIdentifier;
 import com.artesia.entity.TeamsIdentifier;
 import com.artesia.event.Event;
@@ -54,15 +57,27 @@ public class PlateIndentificationOnMetadataUpdate extends AbstractOTMMEventHandl
 				new TeamsIdentifier(CUSTOM_FIELD_CAR_BRAND)
 			});
 
+			
 			if (mc != null) {
 				
+				String plate = null;
+				String countryName = null;
+				String brand = null;				
+				
+				MetadataValue metadataPlate = mc.getValueForField(new TeamsIdentifier(CUSTOM_FIELD_CAR_PLATE_NUMBER));
+				MetadataValue metadataCoutry = mc.getValueForField(new TeamsIdentifier(CUSTOM_FIELD_CAR_PLATE_COUNTRY));
+				MetadataValue metadataBrand = mc.getValueForField(new TeamsIdentifier(CUSTOM_FIELD_CAR_BRAND));				
+				
 				MetadataValue metadataOCRText = mc.getValueForField(new TeamsIdentifier(ARTESIA_FIELD_MEDIAANALYSIS_OCR_TEXT));
+				
+				MetadataValue metadataRMABrand[] = mc.getValuesForTabularField(new TeamsIdentifier(ARTESIA_FIELD_MEDIAANALYSIS_BRAND_NAME));
+				if(metadataRMABrand != null && metadataRMABrand.length > 0) {
+					brand = metadataRMABrand[0].getStringValue();
+					log.info("Brand: " + brand);
+				}				
+				
 				if (metadataOCRText != null) {
 					log.info("Recovering car plate related fields.");
-
-					MetadataValue metadataPlate = mc.getValueForField(new TeamsIdentifier(CUSTOM_FIELD_CAR_PLATE_NUMBER));
-					MetadataValue metadataCoutry = mc.getValueForField(new TeamsIdentifier(CUSTOM_FIELD_CAR_PLATE_COUNTRY));
-					MetadataValue metadataBrand = mc.getValueForField(new TeamsIdentifier(CUSTOM_FIELD_CAR_BRAND));
 					
 					if(metadataPlate != null && metadataCoutry != null && metadataBrand != null) {
 						String plateValue = metadataPlate.getStringValue();
@@ -80,35 +95,28 @@ public class PlateIndentificationOnMetadataUpdate extends AbstractOTMMEventHandl
 							log.info("OCR text: " + ocrText);
 							if (ocrText != null) {
 								if (Plate.containsPlate(ocrText)){
-									String plate = Plate.findFirstPlate(ocrText);
+									plate = Plate.findFirstPlate(ocrText);
 									log.info("\tOCR text contains plate: " + plate);
-									
-									if (plate != null && plate.compareTo("") != 0) {
-										MetadataHelper.saveMetadata(assetId, CUSTOM_FIELD_CAR_PLATE_NUMBER, plate);
-									}
-									
-									
-									String countryName = Plate.findFirstCountryCode(ocrText);
-									if (countryName != null && countryName.compareTo("") !=  0) {
-										MetadataHelper.saveMetadata(assetId, CUSTOM_FIELD_CAR_PLATE_COUNTRY, countryName);
-									}
 								}
+
+								countryName = Plate.findFirstCountryCode(ocrText);
+								if (countryName != null) {
+									log.info("\tOCR text contains country: " + countryName);
+								}
+								
+								saveCarDetails(assetId, plate, countryName, brand);
 							}
+						} else {
+							log.info("Plate metadata fields previously filled!!!");
 						}
+						
+					} else {
+						log.info("Plate metadata fields NOT associated with this asset!!!");
 					}
+					
 				} else {
 					log.info("OCR text NOT FOUND!!!");
-				}
-				
-				MetadataValue metadataBrand[] = mc.getValuesForTabularField(new TeamsIdentifier(ARTESIA_FIELD_MEDIAANALYSIS_BRAND_NAME));
-				if(metadataBrand != null && metadataBrand.length > 0) {
-					String brand = metadataBrand[0].getStringValue();
-					log.info("Brand: " + brand);
-					
-					if (brand != null && brand.compareTo("") != 0) {
-						MetadataHelper.saveMetadata(assetId, CUSTOM_FIELD_CAR_BRAND, brand);	
-					}
-				}
+				}					
 
 				handled = true;
 
@@ -120,5 +128,27 @@ public class PlateIndentificationOnMetadataUpdate extends AbstractOTMMEventHandl
 		}
 
 		return handled;
+	}
+
+	private void saveCarDetails(AssetIdentifier assetId, String plate, String countryName, String brand) {
+		if (plate != null || countryName != null || brand != null) {
+			log.info("Locking asset: " + assetId);
+			MetadataHelper.lockAsset(assetId);
+			
+			if (brand != null && brand.compareTo("") != 0) {
+				MetadataHelper.saveMetadataNotLocking(assetId, CUSTOM_FIELD_CAR_BRAND, brand);	
+			}				
+			
+			if (plate != null && plate.compareTo("") != 0) {
+				MetadataHelper.saveMetadataNotLocking(assetId, CUSTOM_FIELD_CAR_PLATE_NUMBER, plate);
+			}
+								
+			if (countryName != null && countryName.compareTo("") !=  0) {
+				MetadataHelper.saveMetadataNotLocking(assetId, CUSTOM_FIELD_CAR_PLATE_COUNTRY, countryName);
+			}
+			
+			log.info("Unlocking asset: " + assetId);
+			MetadataHelper.unlockAsset(assetId);
+		}
 	}
 }

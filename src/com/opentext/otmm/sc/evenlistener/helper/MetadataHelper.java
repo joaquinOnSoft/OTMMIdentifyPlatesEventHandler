@@ -18,6 +18,7 @@
  */
 package com.opentext.otmm.sc.evenlistener.helper;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -137,6 +138,26 @@ public class MetadataHelper {
 		return null;
 	}
 
+
+	public static void saveMetadataNotLocking(AssetIdentifier assetIDs, String fieldId, String value) {		
+		saveMetadataNotLocking((List<AssetIdentifier>) Arrays.asList(new AssetIdentifier[]{assetIDs}), 
+				fieldId, new MetadataValue(value));
+	}
+	
+	public static void saveMetadataNotLocking(List<AssetIdentifier> assetIDs, String fieldId, MetadataValue value) {
+		TeamsIdentifier teamsFieldId = new TeamsIdentifier(fieldId);
+		MetadataCollection[] metaCol = MetadataHelper.getMetadataForAssets(assetIDs, teamsFieldId);
+
+		log.info("Getting metadatafield");
+		MetadataField assetStatusField = (MetadataField) metaCol[0].findElementById(teamsFieldId);
+
+		assetStatusField.setValue(value);
+		
+		// save the new value
+		log.info("Saving '"+ fieldId + "' field");
+		MetadataHelper.saveMetadata(assetIDs, assetStatusField);		
+	}
+	
 	public static void saveMetadata(List<AssetIdentifier> assetIDs, String fieldId, MetadataValue value) {
 		TeamsIdentifier teamsFieldId = new TeamsIdentifier(fieldId);
 		MetadataCollection[] metaCol = MetadataHelper.getMetadataForAssets(assetIDs, teamsFieldId);
