@@ -18,16 +18,17 @@
  */
 package com.opentext.otmm.sc.evenlistener.handler;
 
-import java.util.Arrays;
-import java.util.List;
-
 import com.artesia.asset.AssetIdentifier;
+import com.artesia.asset.metadata.services.AssetMetadataServices;
+import com.artesia.asset.services.AssetServices;
+import com.artesia.common.exception.BaseTeamsException;
 import com.artesia.entity.TeamsIdentifier;
 import com.artesia.event.Event;
 import com.artesia.metadata.MetadataCollection;
+import com.artesia.metadata.MetadataField;
 import com.artesia.metadata.MetadataValue;
 import com.opentext.otmm.sc.evenlistener.OTMMField;
-import com.opentext.otmm.sc.evenlistener.helper.MetadataHelper;
+import com.opentext.otmm.sc.evenlistener.helper.SecurityHelper;
 import com.opentext.otmm.sc.modules.plates.Plate;
 
 /**
@@ -131,24 +132,26 @@ public class PlateIndentificationOnMetadataUpdate extends AbstractOTMMEventHandl
 	}
 
 	private void saveCarDetails(AssetIdentifier assetId, String plate, String countryName, String brand) {
-		if (plate != null || countryName != null || brand != null) {
-			log.info("Locking asset: " + assetId);
-			MetadataHelper.lockAsset(assetId);
+		MetadataField metaPlate = new MetadataField(new TeamsIdentifier(CUSTOM_FIELD_CAR_PLATE_COUNTRY));
+		metaPlate.setValue(plate);
+		MetadataField metaCountry= new MetadataField(new TeamsIdentifier(CUSTOM_FIELD_CAR_PLATE_COUNTRY));
+		metaCountry.setValue(countryName);
+		MetadataField metaBrand = new MetadataField(new TeamsIdentifier(CUSTOM_FIELD_CAR_BRAND));
+		metaBrand.setValue(brand);
+		
+		try {
+			AssetServices.getInstance().lockAsset(assetId, SecurityHelper.getAdminSession());
+
 			
-			if (brand != null && brand.compareTo("") != 0) {
-				MetadataHelper.saveMetadataNotLocking(assetId, CUSTOM_FIELD_CAR_BRAND, brand);	
-			}				
+			AssetMetadataServices.getInstance().saveMetadataForAssets(
+					new AssetIdentifier[] {assetId},				
+					new MetadataField[] { metaPlate, metaCountry, metaBrand }, 
+					SecurityHelper.getAdminSession());
 			
-			if (plate != null && plate.compareTo("") != 0) {
-				MetadataHelper.saveMetadataNotLocking(assetId, CUSTOM_FIELD_CAR_PLATE_NUMBER, plate);
-			}
-								
-			if (countryName != null && countryName.compareTo("") !=  0) {
-				MetadataHelper.saveMetadataNotLocking(assetId, CUSTOM_FIELD_CAR_PLATE_COUNTRY, countryName);
-			}
-			
-			log.info("Unlocking asset: " + assetId);
-			MetadataHelper.unlockAsset(assetId);
+			AssetServices.getInstance().unlockAsset(assetId, SecurityHelper.getAdminSession());			
+		} catch (BaseTeamsException e) {
+			log.error("Saving car details.", e);
 		}
+		
 	}
 }
