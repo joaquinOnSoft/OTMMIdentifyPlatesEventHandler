@@ -97,7 +97,7 @@ Follow these steps:
 1.	Open SQL Server Management Studio
 2.	Browse to OTMM-BASE (SQL Server - sa) > Databases > MM > Tables
 3.	Select table mm.EVENT_CTXTS
-4.	Edit row with `EVENT_ID = '2229148'` which corresponds with ‘Ending import job’ events
+4.	Edit row with `EVENT_ID = '80008'` which corresponds with ‘Ending import job’ events
 5.	Set IS_ENABLED_EXTERNAL = 'Y'
 
 ![Update mm.EVENT_CTXTS table](images/0050-update-EVENT_CTXTS-table.png)
@@ -119,14 +119,14 @@ SELECT [EVENT_ID]
       ,[MESSAGE]
       ,[IS_EDITABLE]
   FROM [mm].[EVENT_CTXTS]
-  WHERE EVENT_ID = '2229148'
+  WHERE EVENT_ID = '80008'
 GO
 ```
 
 ```sql 
 UPDATE [mm].[EVENT_CTXTS]
    SET [IS_ENABLED_EXTERNAL] = 'Y'
-   WHERE EVENT_ID = '2229148'
+   WHERE EVENT_ID = '80008'
 GO
 ```
 

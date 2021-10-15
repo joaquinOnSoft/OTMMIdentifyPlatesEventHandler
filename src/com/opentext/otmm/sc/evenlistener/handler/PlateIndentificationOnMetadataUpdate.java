@@ -53,6 +53,7 @@ public class PlateIndentificationOnMetadataUpdate extends AbstractOTMMEventHandl
 			MetadataCollection mc = retrieveMetadataForAsset(assetId, new TeamsIdentifier[] {
 				new TeamsIdentifier(ARTESIA_FIELD_MEDIAANALYSIS_OCR_TEXT),
 				new TeamsIdentifier(ARTESIA_FIELD_MEDIAANALYSIS_BRAND_NAME),
+				new TeamsIdentifier(ARTESIA_FIELD_MEDIAANALYSIS_BRAND_CONFIDENCE),
 				new TeamsIdentifier(CUSTOM_FIELD_CAR_PLATE_NUMBER),
 				new TeamsIdentifier(CUSTOM_FIELD_CAR_PLATE_COUNTRY),
 				new TeamsIdentifier(CUSTOM_FIELD_CAR_BRAND)
@@ -72,9 +73,16 @@ public class PlateIndentificationOnMetadataUpdate extends AbstractOTMMEventHandl
 				MetadataValue metadataOCRText = mc.getValueForField(new TeamsIdentifier(ARTESIA_FIELD_MEDIAANALYSIS_OCR_TEXT));
 				
 				MetadataValue metadataRMABrand[] = mc.getValuesForTabularField(new TeamsIdentifier(ARTESIA_FIELD_MEDIAANALYSIS_BRAND_NAME));
+				MetadataValue metadataRMABrandConfidence[] = mc.getValuesForTabularField(new TeamsIdentifier(ARTESIA_FIELD_MEDIAANALYSIS_BRAND_CONFIDENCE));
 				if(metadataRMABrand != null && metadataRMABrand.length > 0) {
-					brand = metadataRMABrand[0].getStringValue();
-					log.info("Brand: " + brand);
+					int brandConfidence = metadataRMABrandConfidence[0].getIntValue();
+					if (brandConfidence >= 75) {
+						brand = metadataRMABrand[0].getStringValue();
+						log.info("Brand: " + brand);
+					}
+					else {
+						log.info("Brand IGNORED. Confidence level minor than 75%");
+					}
 				}				
 				
 				if (metadataOCRText != null) {
