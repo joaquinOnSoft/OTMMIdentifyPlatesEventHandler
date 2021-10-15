@@ -33,9 +33,9 @@ If a plate number is found, It's stored in this custom fields:
 2.	Open **web.xml** file located at **C:\Apps\MediaManagement\ear\artesia\otmmux\WEB-INF**
 3.	Paste the paragraph under the **web-app** label
 
-## log4j.xml
+## log4j2.xml
 
-Log4j is a simple and flexible logging framework. The most common configuration options issuing  log4j.xml
+Log4j is a simple and flexible logging framework. The most common configuration options issuing  log4j2.xml
 
 Follow these steps:
 1.	Copy these text:
@@ -76,7 +76,7 @@ Follow these steps:
 <!-- Custom added by Joaquín: END -->
 ``` 
 
-2.	Paste the paragraph before the **&lt;/log4j:configuration&gt;** label into **C:\Apps\MediaManagement_TomEE\conf\log4j.xml**
+2.	Paste the paragraph before the **&lt;/log4j:configuration&gt;** label into **C:\Apps\MediaManagement_TomEE\conf\log4j2.xml**
 
 
 ## Deploy event listener classes
